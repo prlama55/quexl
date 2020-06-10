@@ -1,0 +1,25 @@
+plugins {
+    id "com.github.node-gradle.node" version "2.2.4"
+}
+
+node {
+    version = '12.18.0'
+    yarnVersion = '1.22.4'
+    download = true
+}
+
+task bootRun(type: YarnTask, dependsOn: 'yarn') {
+    group = 'application'
+    description = 'Start client side server'
+    args = ['run', 'start']
+}
+
+task test(type: YarnTask, dependsOn: 'yarn') {
+    group = 'verification'
+    description = 'Execute unit tests'
+    args = ['run', 'test']
+}
+
+task integrationTest(type: YarnTask, dependsOn: 'yarn') {
+    args = ['run', 'e2e']
+}
