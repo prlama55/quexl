@@ -7,7 +7,9 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
+body{
+  background: #c2c3c461;
+}
 h1,
 h2,
 h3,
@@ -25,31 +27,6 @@ p {
   flex: 1;
 }
 
-.toolbar {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 60px;
-  display: flex;
-  align-items: center;
-  background-color: #1976d2;
-  color: white;
-  font-weight: 600;
-}
-
-.toolbar img {
-  margin: 0 16px;
-}
-
-.toolbar #twitter-logo {
-  height: 40px;
-  margin: 0 16px;
-}
-
-.toolbar #twitter-logo:hover {
-  opacity: 0.8;
-}
 
 .content {
   display: flex;
@@ -58,19 +35,6 @@ p {
   max-width: 960px;
   flex-direction: column;
   align-items: center;
-}
-
-svg.material-icons {
-  height: 24px;
-  width: auto;
-}
-
-svg.material-icons:not(:last-child) {
-  margin-right: 8px;
-}
-
-.card svg.material-icons path {
-  fill: #888;
 }
 
 .card-container {
@@ -286,4 +250,30 @@ svg#clouds {
     display: none;
     visibility: hidden;
   }
+}
+.dashboard-sidebar-container{
+  height: 95vh !important;
+  border: 1px solid white;
+  padding: 10px;
+  background: #ddddddc9;
+}
+.navbar{
+  background: #ddddddc9;
+}
+
+.dashboard-container{
+  height: 85vh !important;
+  padding: 10px;
+}
+.navbar-light .navbar-nav .nav-link {
+  color: rgb(61, 61, 61);
+  font-weight: 500;
+}
+.btn.focus, .btn:focus {
+  box-shadow: none !important;
+}
+.navbar-light .navbar-nav .nav-link:focus,
+.navbar-light .navbar-nav .nav-link:hover
+{
+  color: rgba(123, 123, 123, 0.79);
 }

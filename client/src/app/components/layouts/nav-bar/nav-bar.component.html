@@ -1,0 +1,77 @@
+<div class="container-fluid" id="nav-bar">
+  <nav class="navbar navbar-expand-lg navbar-light">
+    <a class="navbar-brand"routerLink="/">Quexl</a>
+    <button class="navbar-toggler" type="button"  (click)="isOpen=!isOpen" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" #collapse="bs-collapse" [collapse]="!isOpen" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto topnav">
+        <li class="nav-item" *ngIf="isLoggedIn">
+          <a class="nav-link btn" href="#" routerLink="">Services</a>
+        </li>
+        <li class="nav-item" *ngIf="isLoggedIn">
+          <a class="nav-link btn" href="#" routerLink="">Create Service</a>
+        </li>
+
+      </ul>
+      <ul class="navbar-nav ml-auto topnav">
+        <li class="nav-item" *ngIf="!isLoggedIn">
+          <a class="nav-link btn" href="#" data-toggle="modal" (click)="openModal(template)" data-target="#myModal">Sign In</a>
+        </li>
+        <li class="nav-item" *ngIf="!isLoggedIn">
+          <a class="nav-link btn" href="#" data-toggle="modal" data-target="#myModal">Register</a>
+        </li>
+        <li class="nav-item" *ngIf="isLoggedIn">
+          <a class="nav-link btn" href="#"> <i class="fa fa-user"></i> {{userProfile.username}}</a>
+        </li>
+        <li class="nav-item" *ngIf="isLoggedIn">
+          <a class="nav-link btn" role="button" (click)="logout()"><i class="fa fa-sign-out"></i> Logout</a>
+        </li>
+      </ul>
+    </div>
+
+    <ng-template #template>
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Sign In</h4>
+          <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()">×</button>
+        </div>
+        <form [formGroup]="loginForm" (ngSubmit)="login()" novalidate>
+        <!-- Modal body -->
+        <div class="modal-body">
+          <div class="alert alert-success" *ngIf="message?.status===200">{{message?.message}}</div>
+          <div class="alert alert-danger" *ngIf="message && message?.status!==200">
+            <i class="fa fa-warning"></i> {{message?.message}} username or password. Please try again!
+          </div>
+            <label class="sr-only">Username</label>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1"><i class="fa fa-user"></i></span>
+              </div>
+              <input autofocus type="text" formControlName="username" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+            </div>
+
+
+            <label class="sr-only" for="Password">Password</label>
+            <div class="input-group mb-2">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon2"><i class="fa fa-key"></i></span>
+              </div>
+              <input id="Password" formControlName="password" type="password" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="basic-addon2">
+            </div>
+
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary" [disabled]="!loginForm.valid">Sign In</button>
+          <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">Close</button>
+        </div>
+        </form>
+      </div>
+    </ng-template>
+  </nav>
+</div>
