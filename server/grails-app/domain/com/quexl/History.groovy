@@ -6,13 +6,13 @@ import org.bson.types.ObjectId
 class History {
 
     ObjectId id
-    User owner
+    User buyer
+    User seller
     List <HistoryElement> historyElement =[]
     Date createdAt = new Date()
     Date updated
 
     static constraints = {
         updated nullable: true
-
     }
 }

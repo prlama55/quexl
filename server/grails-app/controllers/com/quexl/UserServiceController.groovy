@@ -23,7 +23,7 @@ class UserServiceController {
         respond userServiceService.list(params), model:[userServiceCount: userServiceService.count()]
     }
 
-    def show(Long id) {
+    def show(String id) {
         respond userServiceService.get(id)
     }
 
@@ -72,7 +72,7 @@ class UserServiceController {
     }
 
     @Transactional
-    def delete(Long id) {
+    def delete(String id) {
         if (id == null) {
             render status: NOT_FOUND
             return

@@ -11,7 +11,7 @@ class Resources {
     double  price =0.0
     Date createdAt = new Date()
     Date updated
-    User user
+    User seller
 
     static constraints = {
         title nullable: false

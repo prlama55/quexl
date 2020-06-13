@@ -5,13 +5,13 @@ import grails.gorm.services.Service
 @Service(UserService)
 interface UserServiceService {
 
-    UserService get(Serializable id)
+    UserService get(String id)
 
     List<UserService> list(Map args)
 
     Long count()
 
-    void delete(Serializable id)
+    void delete(String id)
 
     UserService save(UserService userService)
 

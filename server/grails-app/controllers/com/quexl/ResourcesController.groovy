@@ -19,11 +19,12 @@ class ResourcesController {
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
     def index(Integer max) {
+        println "max = $max"
         params.max = Math.min(max ?: 10, 100)
         respond resourcesService.list(params), model:[resourcesCount: resourcesService.count()]
     }
 
-    def show(Long id) {
+    def show(String id) {
         respond resourcesService.get(id)
     }
 
@@ -72,7 +73,7 @@ class ResourcesController {
     }
 
     @Transactional
-    def delete(Long id) {
+    def delete(String id) {
         if (id == null) {
             render status: NOT_FOUND
             return

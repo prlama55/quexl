@@ -23,7 +23,7 @@ class HistoryController {
         respond historyService.list(params), model:[historyCount: historyService.count()]
     }
 
-    def show(Long id) {
+    def show(String id) {
         respond historyService.get(id)
     }
 
@@ -72,7 +72,7 @@ class HistoryController {
     }
 
     @Transactional
-    def delete(Long id) {
+    def delete(String id) {
         if (id == null) {
             render status: NOT_FOUND
             return

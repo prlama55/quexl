@@ -5,13 +5,13 @@ import grails.gorm.services.Service
 @Service(History)
 interface HistoryService {
 
-    History get(Serializable id)
+    History get(String id)
 
     List<History> list(Map args)
 
     Long count()
 
-    void delete(Serializable id)
+    void delete(String id)
 
     History save(History history)
 

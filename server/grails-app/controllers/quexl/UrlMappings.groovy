@@ -3,12 +3,13 @@ package quexl
 class UrlMappings {
 
     static mappings = {
-        delete "/$controller/$id(.$format)?"(action:"delete")
-        get "/$controller(.$format)?"(action:"index")
-        get "/$controller/$id(.$format)?"(action:"show")
-        post "/$controller(.$format)?"(action:"save")
-        put "/$controller/$id(.$format)?"(action:"update")
-        patch "/$controller/$id(.$format)?"(action:"patch")
+
+        "/api/users"(resources:'user')
+        "/api/services"(resources:'resource')
+        "/api/dataset"(resources:'dataset')
+        "/api/historyElements"(resources:'historyElement')
+        "/api/histories"(resources:'history')
+        "/api/userServices"(resources:'userService')
 
         "/"(controller: 'application', action:'index')
         "500"(view: '/error')
