@@ -8,6 +8,22 @@ const routes: Routes = [
     loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule)
   },
   {
+    path: 'services',
+    loadChildren: () => import('./services/services.module').then(m => m.ServicesModule)
+  },
+  {
+    path: 'users',
+    loadChildren: () => import('./user/user.module').then(m => m.UserModule)
+  },
+  {
+    path: 'history',
+    loadChildren: () => import('./history/history.module').then(m => m.HistoryModule)
+  },
+  {
+    path: 'dataset',
+    loadChildren: () => import('./dataset/dataset.module').then(m => m.DatasetModule)
+  },
+  {
     path: '',
     redirectTo: '',
     pathMatch: 'full'

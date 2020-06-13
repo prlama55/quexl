@@ -7,13 +7,14 @@
 
     <div class="collapse navbar-collapse" #collapse="bs-collapse" [collapse]="!isOpen" id="navbarSupportedContent">
       <ul class="navbar-nav ml-auto topnav">
-        <li class="nav-item" *ngIf="isLoggedIn">
-          <a class="nav-link btn" href="#" routerLink="">Services</a>
+        <li class="nav-item" *ngIf="isLoggedIn" >
+          <a class="nav-link btn" href="#" [routerLink]="['/services']" [routerLinkActive]="['active']"
+             [routerLinkActiveOptions]="{exact:true}">Services</a>
         </li>
-        <li class="nav-item" *ngIf="isLoggedIn">
-          <a class="nav-link btn" href="#" routerLink="">Create Service</a>
+        <li class="nav-item" *ngIf="isLoggedIn" >
+          <a class="nav-link btn" href="#" [routerLink]="['/services/add']" [routerLinkActive]="['active']"
+             [routerLinkActiveOptions]="{exact:true}">Create Service</a>
         </li>
-
       </ul>
       <ul class="navbar-nav ml-auto topnav">
         <li class="nav-item" *ngIf="!isLoggedIn">
@@ -40,12 +41,12 @@
           <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()">×</button>
         </div>
         <form [formGroup]="loginForm" (ngSubmit)="login()" novalidate>
-        <!-- Modal body -->
-        <div class="modal-body">
-          <div class="alert alert-success" *ngIf="message?.status===200">{{message?.message}}</div>
-          <div class="alert alert-danger" *ngIf="message && message?.status!==200">
-            <i class="fa fa-warning"></i> {{message?.message}} username or password. Please try again!
-          </div>
+          <!-- Modal body -->
+          <div class="modal-body">
+            <div class="alert alert-success" *ngIf="message?.status===200">{{message?.message}}</div>
+            <div class="alert alert-danger" *ngIf="message && message?.status!==200">
+              <i class="fa fa-warning"></i> {{message?.message}} username or password. Please try again!
+            </div>
             <label class="sr-only">Username</label>
             <div class="input-group mb-3">
               <div class="input-group-prepend">
@@ -63,13 +64,13 @@
               <input id="Password" formControlName="password" type="password" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="basic-addon2">
             </div>
 
-        </div>
+          </div>
 
-        <!-- Modal footer -->
-        <div class="modal-footer">
-          <button type="submit" class="btn btn-primary" [disabled]="!loginForm.valid">Sign In</button>
-          <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">Close</button>
-        </div>
+          <!-- Modal footer -->
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary" [disabled]="!loginForm.valid">Sign In</button>
+            <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">Close</button>
+          </div>
         </form>
       </div>
     </ng-template>

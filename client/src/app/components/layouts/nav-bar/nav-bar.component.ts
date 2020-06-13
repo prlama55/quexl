@@ -19,6 +19,7 @@ export class NavBarComponent implements OnInit {
   isLoggedIn: boolean
   userProfile: UserProfile
   isOpen = false;
+  active: string;
   constructor(
       private modalService: BsModalService,
       private loginService: LoginService,
@@ -31,6 +32,7 @@ export class NavBarComponent implements OnInit {
     this.userProfile= this.loginService.userProfile
   }
   ngOnInit(): void {
+    console.log(this.router.url)
     if(this.loginService.isLoggedIn()){
       this.router.navigate(['/dashboard']);
     }

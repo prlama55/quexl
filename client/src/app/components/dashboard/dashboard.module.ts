@@ -6,8 +6,6 @@ import { SideBarComponent } from './left-side-bar/side-bar.component';
 import { RightSideBarComponent } from './right-side-bar/right-side-bar.component';
 import { ContentComponent } from './content/content.component';
 
-
-
 @NgModule({
   declarations: [DashboardComponent, SideBarComponent, RightSideBarComponent, ContentComponent],
   imports: [
