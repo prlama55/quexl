@@ -15,6 +15,7 @@ import {QuexlHttpInterceptor} from "../http/intercepter/quexl.http.interceptor";
 import {BsDropdownModule} from "ngx-bootstrap/dropdown";
 import {AlertModule} from "ngx-bootstrap/alert";
 import {CollapseModule} from "ngx-bootstrap/collapse";
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import {CollapseModule} from "ngx-bootstrap/collapse";
     HttpClientModule,
     BsDropdownModule.forRoot(),
     AlertModule.forRoot(),
-    CollapseModule.forRoot()
+    CollapseModule.forRoot(),
+    FontAwesomeModule,
   ],
   providers: [
     LoginService,
