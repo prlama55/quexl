@@ -1,0 +1,18 @@
+import com.quexl.Resources
+
+model {
+	Resources resources
+}
+
+json {
+	id resources.id.toString()
+	price resources.price
+	seller {
+		id resources.seller.id.toString()
+		username resources.seller.username
+		email resources.seller.email
+	}
+	title resources.title
+	createdAt resources.createdAt
+	description resources.description
+}

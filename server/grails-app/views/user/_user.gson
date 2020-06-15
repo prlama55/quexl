@@ -1,0 +1,12 @@
+import com.quexl.security.User
+
+model {
+	User user
+}
+
+json {
+	id user.id.toString()
+	username user.username
+	email user.email
+	role user.primaryRole
+}

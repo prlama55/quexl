@@ -1,0 +1,8 @@
+import com.quexl.Resources
+
+model {
+	Iterable<Resources> resourcesList
+}
+
+json tmpl.resources(resourcesList ?: [])
+
