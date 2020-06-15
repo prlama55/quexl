@@ -8,7 +8,7 @@ class HistoryElement {
     ObjectId id
     String  name
     Dataset dataset
-    UserService userService
+    UserServices userService
     User buyer
     User seller
     Date createdAt = new Date()

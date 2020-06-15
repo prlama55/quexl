@@ -2,17 +2,17 @@ package com.quexl
 
 import grails.gorm.services.Service
 
-@Service(UserService)
+@Service(UserServices)
 interface UserServiceService {
 
-    UserService get(String id)
+    UserServices get(String id)
 
-    List<UserService> list(Map args)
+    List<UserServices> list(Map args)
 
     Long count()
 
     void delete(String id)
 
-    UserService save(UserService userService)
+    UserServices save(UserServices userService)
 
 }

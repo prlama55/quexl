@@ -3,7 +3,7 @@ package com.quexl
 import com.quexl.security.User
 import org.bson.types.ObjectId
 
-class UserService {
+class UserServices {
 
     ObjectId id
     User seller

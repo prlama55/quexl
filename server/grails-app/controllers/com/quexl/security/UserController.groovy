@@ -1,73 +1,85 @@
-package com.quexl
+package com.quexl.security
 
 import grails.validation.ValidationException
+import org.springframework.security.access.annotation.Secured
+
 import static org.springframework.http.HttpStatus.CREATED
 import static org.springframework.http.HttpStatus.NOT_FOUND
 import static org.springframework.http.HttpStatus.NO_CONTENT
 import static org.springframework.http.HttpStatus.OK
+import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY
 
 import grails.gorm.transactions.ReadOnly
 import grails.gorm.transactions.Transactional
 
+@Secured('ROLE_SUPER_ADMIN')
 @ReadOnly
-class UserServiceController {
+class UserController {
 
-    UserServiceService userServiceService
+    UserService userService
 
     static responseFormats = ['json', 'xml']
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
-        respond userServiceService.list(params), model:[userServiceCount: userServiceService.count()]
+        respond userService.list(params), model:[userCount: userService.count()]
     }
 
     def show(String id) {
-        respond userServiceService.get(id)
+        respond userService.get(id)
     }
 
     @Transactional
-    def save(UserServices userService) {
-        if (userService == null) {
+    def save(User user) {
+        if (user == null) {
             render status: NOT_FOUND
             return
         }
-        if (userService.hasErrors()) {
+        if (user.hasErrors()) {
             transactionStatus.setRollbackOnly()
-            respond userService.errors
+            respond user.errors
             return
         }
 
         try {
-            userServiceService.save(userService)
+            User newUser= userService.save(user)
+            Role role= Role.findByAuthority(user.primaryRole)
+            if(newUser && role){
+                UserRole.create newUser, role
+                UserRole.withSession {
+                    it.flush()
+                    it.clear()
+                }
+            }
         } catch (ValidationException e) {
-            respond userService.errors
+            respond user.errors
             return
         }
 
-        respond userService, [status: CREATED, view:"show"]
+        respond user, [status: CREATED, view:"show"]
     }
 
     @Transactional
-    def update(UserServices userService) {
-        if (userService == null) {
+    def update(User user) {
+        if (user == null) {
             render status: NOT_FOUND
             return
         }
-        if (userService.hasErrors()) {
+        if (user.hasErrors()) {
             transactionStatus.setRollbackOnly()
-            respond userService.errors
+            respond user.errors
             return
         }
 
         try {
-            userServiceService.save(userService)
+            userService.save(user)
         } catch (ValidationException e) {
-            respond userService.errors
+            respond user.errors
             return
         }
 
-        respond userService, [status: OK, view:"show"]
+        respond user, [status: OK, view:"show"]
     }
 
     @Transactional
@@ -77,7 +89,7 @@ class UserServiceController {
             return
         }
 
-        userServiceService.delete(id)
+        userService.delete(id)
 
         render status: NO_CONTENT
     }
