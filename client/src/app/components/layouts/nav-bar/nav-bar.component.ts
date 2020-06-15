@@ -24,7 +24,6 @@ export class NavBarComponent implements OnInit {
       private modalService: BsModalService,
       private loginService: LoginService,
       private fb: FormBuilder,
-      protected storageService: StorageServices,
       private router: Router
   ) {
     this.loginForm = this.createFormGroup();
@@ -50,23 +49,20 @@ export class NavBarComponent implements OnInit {
   async login(){
     console.log(this.loginForm.value)
     this.loginService.login(this.loginForm.value).subscribe(data=>{
-      this.storageService.save(AUTH_KEY, JSON.stringify(data))
+      StorageServices.save(AUTH_KEY, JSON.stringify(data))
+      location.href='/dashboard'
     },error => {
       this.message=error
-      this.storageService.remove(AUTH_KEY)
+      StorageServices.remove(AUTH_KEY)
       this.loginForm.patchValue({
         username:'',
         password: ''
       })
     })
-    setTimeout(()=>{
-      this.router.navigate(['/dashboard']);
-      location.reload()
-    },500)
   }
 
   logout(){
-    this.storageService.remove(AUTH_KEY)
+    StorageServices.remove(AUTH_KEY)
     this.loginForm.patchValue({
       username:'',
       password: ''

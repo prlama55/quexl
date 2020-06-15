@@ -13,10 +13,10 @@ export class LoginService {
   baseUrl: string
   userProfile: UserProfile;
   auth: Auth;
-  constructor(private http: HttpClient, private storageServices: StorageServices) {
+  constructor(private http: HttpClient) {
     this.baseUrl= environment.baseUrl
-    if(this.storageServices.get(AUTH_KEY)) {
-      this.auth= JSON.parse(this.storageServices.get(AUTH_KEY))
+    if(StorageServices.get(AUTH_KEY)) {
+      this.auth= JSON.parse(StorageServices.get(AUTH_KEY))
       this.userProfile={
         username: this.auth.username,
         roles: this.auth.roles.join(',')

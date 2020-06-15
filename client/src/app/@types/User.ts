@@ -16,3 +16,9 @@ export interface UserProfile {
     username: string
     roles: string
 }
+
+export interface User{
+    id: string
+    username: string
+    email: string
+}

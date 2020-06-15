@@ -8,7 +8,7 @@
   -moz-osx-font-smoothing: grayscale;
 }
 body{
-  background: #c2c3c461;
+  background: #c2c3c400;
 }
 h1,
 h2,
@@ -276,4 +276,7 @@ svg#clouds {
 .navbar-light .navbar-nav .nav-link:hover
 {
   color: rgba(123, 123, 123, 0.79);
+}
+.table{
+  margin-top: 30px;
 }

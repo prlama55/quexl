@@ -12,7 +12,7 @@ import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY
 import grails.gorm.transactions.ReadOnly
 import grails.gorm.transactions.Transactional
 
-@Secured('ROLE_SUPER_ADMIN')
+@Secured(["ROLE_ADMIN", 'ROLE_SUPER_ADMIN'])
 @ReadOnly
 class UserController {
 

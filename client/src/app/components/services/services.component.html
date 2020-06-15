@@ -1,1 +1,18 @@
-<h1>services works!</h1>
+<div class="container-fluid">
+    <table class="table table-bordered table-hover">
+        <thead>
+        <tr>
+            <th>Seller Email</th>
+            <th>Title</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let s of services; let i">
+            <td>{{s.seller.email}}</td>
+            <td>{{s.title}}</td>
+            <td>{{s.description}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>

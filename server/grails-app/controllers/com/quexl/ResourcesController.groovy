@@ -1,18 +1,21 @@
 package com.quexl
 
+import com.quexl.utilities.UtilityService
 import grails.validation.ValidationException
+import org.springframework.security.access.annotation.Secured
+
 import static org.springframework.http.HttpStatus.CREATED
 import static org.springframework.http.HttpStatus.NOT_FOUND
 import static org.springframework.http.HttpStatus.NO_CONTENT
 import static org.springframework.http.HttpStatus.OK
-import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY
 
 import grails.gorm.transactions.ReadOnly
 import grails.gorm.transactions.Transactional
 
+@Secured(["ROLE_ADMIN", 'ROLE_SUPER_ADMIN'])
 @ReadOnly
 class ResourcesController {
-
+    UtilityService utilityService
     ResourcesService resourcesService
 
     static responseFormats = ['json', 'xml']

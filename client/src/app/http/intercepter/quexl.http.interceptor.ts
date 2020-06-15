@@ -15,23 +15,28 @@ import {Auth} from "../../@types/User";
 
 @Injectable()
 export class QuexlHttpInterceptor implements HttpInterceptor {
-    constructor(private storageServices: StorageServices) { }
+    constructor() { }
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         let auth: Auth;
-
-        if(this.storageServices.get('token')){
-            auth= JSON.parse(this.storageServices.get('token'))
+        let token=StorageServices.get('auth')
+        if(token){
+            auth= JSON.parse(token)
         }
+        console.log("token====",token)
+        console.log("auth====",auth)
         if (auth) {
-            request = request.clone({ headers: request.headers.set('Authorization', 'Bearer ' + auth.access_token) });
+            request = request.clone({
+                setHeaders:{
+                    'Authorization': 'Bearer ' + auth.access_token
+                }
+            });
         }
-
-        if (!request.headers.has('Content-Type')) {
-            request = request.clone({ headers: request.headers.set('Content-Type', 'application/json') });
-        }
-
-        request = request.clone({ headers: request.headers.set('Accept', 'application/json') });
-
+        request = request.clone({
+            setHeaders:{
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        });
         return next.handle(request).pipe(
             map((event: HttpEvent<any>) => {
                 if (event instanceof HttpResponse) {

@@ -5,7 +5,7 @@ class UrlMappings {
     static mappings = {
 
         "/api/users"(resources:'user')
-        "/api/services"(resources:'resource')
+        "/api/services"(resources:'resources')
         "/api/dataset"(resources:'dataset')
         "/api/historyElements"(resources:'historyElement')
         "/api/histories"(resources:'history')

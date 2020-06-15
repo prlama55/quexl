@@ -1,10 +1,6 @@
-import { Injectable } from '@angular/core';
-
-@Injectable({
-    providedIn: 'root'
-})
 export class StorageServices {
     sessionStorageSupported: boolean
+    private static sessionStorageSupported: boolean;
     constructor() {
         try{
             sessionStorage.setItem('test','test')
@@ -14,14 +10,14 @@ export class StorageServices {
             this.sessionStorageSupported= false
         }
     }
-    save(key: string, data): void{
+    static save(key: string, data): void{
         if( this.sessionStorageSupported){
             sessionStorage.setItem(key, data)
         }else{
             localStorage.setItem(key, data)
         }
     }
-    get(key: string): any{
+    static get(key: string): string{
         if( this.sessionStorageSupported){
             return sessionStorage.getItem(key)
         }else{
@@ -29,14 +25,14 @@ export class StorageServices {
         }
     }
 
-    remove(key: string): void{
+    static remove(key: string): void{
         if( this.sessionStorageSupported){
             sessionStorage.removeItem(key)
         }else{
             localStorage.removeItem(key)
         }
     }
-    clear(): void{
+    static clear(): void{
         if( this.sessionStorageSupported){
             sessionStorage.clear()
         }else{
