@@ -1,1 +1,25 @@
-<p>add works!</p>
+<div class="container-fluid mt-4">
+    <div class="card-container">
+        <div class="card">
+            <div class="card-body">
+                <div *ngIf="errorMessage" class="row alert alert-danger">{{errorMessage}}</div>
+                <form [formGroup]="serviceForm" (ngSubmit)="addService()" novalidate>
+                    <div class="row form-group">
+                        <label for="title" class="col-1">Title</label>
+                        <input id="title" autofocus type="text" formControlName="title" class="col-9 form-control" placeholder="Title" aria-label="Title" aria-describedby="basic-addon1">
+                        <label for="price" class="col-1">Price</label>
+                        <input id="price" formControlName="price" min="0" type="number" class="col-1 form-control" placeholder="Price" aria-label="Price" aria-describedby="basic-addon2">
+                    </div>
+                    <div class="form-group row">
+                        <label for="description" class="col-1">Description</label>
+                        <textarea rows="4" id="description" formControlName="description" class="col-11 form-control" placeholder="Description" aria-label="Description" aria-describedby="basic-addon2"></textarea>
+                    </div>
+                    <div class="form-group pull-right row">
+                        <button type="submit" class="btn btn-primary pull-left" [disabled]="!serviceForm.valid">Save</button>
+                        <a href="#" routerLink="/services" class="btn btn-danger ml-2 pull-right">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

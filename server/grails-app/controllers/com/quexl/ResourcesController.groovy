@@ -1,5 +1,6 @@
 package com.quexl
 
+import com.quexl.security.User
 import com.quexl.utilities.UtilityService
 import grails.validation.ValidationException
 import org.springframework.security.access.annotation.Secured
@@ -32,8 +33,11 @@ class ResourcesController {
     }
 
     @Transactional
-    def save(Resources resources) {
-        if (resources == null) {
+    def save() {
+        User user= utilityService.currentUser
+        request.JSON.seller=user
+        Resources resources= new Resources(request.JSON)
+        if (user == null) {
             render status: NOT_FOUND
             return
         }

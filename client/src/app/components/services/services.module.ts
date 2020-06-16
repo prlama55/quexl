@@ -4,12 +4,14 @@ import {ServicesComponent} from "./services.component";
 import { AddServiceComponent } from './add/add.component';
 import {ServicesRoutingModule} from "./services-routing.module";
 import {ServicesService} from "./services.service";
+import {ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [ServicesComponent, AddServiceComponent],
   imports: [
     CommonModule,
-    ServicesRoutingModule
+    ServicesRoutingModule,
+    ReactiveFormsModule
   ],
   providers:[
     ServicesService
