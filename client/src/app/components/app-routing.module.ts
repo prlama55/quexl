@@ -20,12 +20,12 @@ const routes: Routes = [
     loadChildren: () => import('./history/history.module').then(m => m.HistoryModule)
   },
   {
-    path: 'dataset',
+    path: 'datasets',
     loadChildren: () => import('./dataset/dataset.module').then(m => m.DatasetModule)
   },
   {
     path: '',
-    redirectTo: 'dashboard',
+    redirectTo: '',
     pathMatch: 'full'
   },
   {

@@ -1,12 +1,17 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import {DatasetComponent} from "./dataset.component";
+import {UploadComponent} from "./upload/upload.component";
 
 
 const routes: Routes = [
     {
         path: '',
-        component: DatasetComponent
+        children:[
+            {path:'',component:DatasetComponent},
+            {path:'add',component:UploadComponent}
+        ]
+
     }
 ];
 

@@ -1,1 +1,17 @@
-<p>dataset works!</p>
+<div class="container-fluid">
+    <table class="table table-bordered table-hover">
+        <thead>
+        <tr>
+
+            <th>Data Format</th>
+            <th>Data String</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let s of datasets; let i">
+            <td>{{s.dataFormat}}</td>
+            <td>{{s.dataString}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
