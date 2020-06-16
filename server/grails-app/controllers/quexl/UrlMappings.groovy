@@ -6,7 +6,7 @@ class UrlMappings {
 
         "/api/users"(resources:'user')
         "/api/services"(resources:'resources')
-        "/api/dataset"(resources:'dataset')
+        "/api/datasets"(resources:'dataset')
         "/api/historyElements"(resources:'historyElement')
         "/api/histories"(resources:'history')
         "/api/userServices"(resources:'userService')

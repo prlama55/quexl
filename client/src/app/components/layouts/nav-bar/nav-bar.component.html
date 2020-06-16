@@ -15,6 +15,18 @@
           <a class="nav-link btn" href="#" [routerLink]="['/services/add']" [routerLinkActive]="['active']"
              [routerLinkActiveOptions]="{exact:true}">Create Service</a>
         </li>
+
+        <!--Added later starts-->
+        <li class="nav-item" *ngIf="isLoggedIn" >
+          <a class="nav-link btn" href="#" [routerLink]="['/datasets/add']" [routerLinkActive]="['active']"
+             [routerLinkActiveOptions]="{exact:true}">Create Datasets</a>
+        </li>
+
+        <li class="nav-item" *ngIf="isLoggedIn" >
+          <a class="nav-link btn" href="#" [routerLink]="['/datasets']" [routerLinkActive]="['active']"
+             [routerLinkActiveOptions]="{exact:true}">Datasets</a>
+        </li>
+        <!--Added later ends-->
       </ul>
       <ul class="navbar-nav ml-auto topnav">
         <li class="nav-item" *ngIf="!isLoggedIn">

@@ -1,1 +1,24 @@
-<p>upload works!</p>
+<div class="container-fluid mt-4">
+    <div class="card-container">
+        <div class="card">
+            <div class="card-body">
+                <div *ngIf="errorMessage" class="row alert alert-danger">{{errorMessage}}</div>
+                <form [formGroup]="datasetForm" (ngSubmit)="addDataset()" novalidate>
+                    <div class="row form-group">
+                        <label for="dataFormat" class="col-1">Data Format</label>
+                        <input id="dataFormat" autofocus type="text" formControlName="dataFormat" class="col-9 form-control" placeholder="Data Format" aria-label="Data Format" aria-describedby="basic-addon1">
+
+                    </div>
+                    <div class="form-group row">
+                        <label for="dataString" class="col-1">Data String</label>
+                        <textarea rows="4" id="dataString" formControlName="dataString" class="col-11 form-control" placeholder="Data String " aria-label="Data String" aria-describedby="basic-addon2"></textarea>
+                    </div>
+                    <div class="form-group pull-right row">
+                        <button type="submit" class="btn btn-primary pull-left" [disabled]="!datasetForm.valid">Save</button>
+                        <a href="#" routerLink="/services" class="btn btn-danger ml-2 pull-right">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
