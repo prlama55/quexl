@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {LoginService} from "../user/login.service";
 import {Router} from "@angular/router";
+import {Services} from "../../@types/Services";
+import {DatasetService} from "../dataset/dataset.service";
+import {ServicesService} from "../services/services.service";
 
 @Component({
   selector: 'app-dashboard',
@@ -8,14 +11,26 @@ import {Router} from "@angular/router";
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-
-  constructor(private loginService: LoginService, private router: Router) {
+  services: Services
+  datasets: any
+  constructor(
+      private loginService: LoginService,
+      private router: Router,
+      private servicesService: ServicesService,
+      private datasetServices:DatasetService
+  ) {
     if(!this.loginService.isLoggedIn()){
       this.router.navigate(['/'])
     }
   }
 
   ngOnInit(): void {
+    this.servicesService.userServices().subscribe((services: Services)=>{
+      this.services= services
+    })
+    this.datasetServices.userDataset().subscribe((datasets: DatasetService) => {
+      this.datasets = datasets
+    })
   }
 
 }

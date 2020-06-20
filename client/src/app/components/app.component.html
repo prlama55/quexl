@@ -1,2 +1,6 @@
 <app-nav-bar></app-nav-bar>
 <router-outlet></router-outlet>
+<div *ngIf="queryParam.type" class="alert alert-danger alert-dismissible text-center">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>{{queryParam?.type}}</strong> {{queryParam?.reason}}.
+</div>

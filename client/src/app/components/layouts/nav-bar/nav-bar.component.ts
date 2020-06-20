@@ -6,7 +6,7 @@ import {LoginService} from "../../user/login.service";
 import {StorageServices} from "../../../helpers/StorageServices";
 import {AUTH_KEY} from "../../../helpers/Constants";
 import {UserProfile} from "../../../@types/User";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 @Component({
   selector: 'app-nav-bar',
   templateUrl: './nav-bar.component.html',
@@ -19,7 +19,6 @@ export class NavBarComponent implements OnInit {
   isLoggedIn: boolean
   userProfile: UserProfile
   isOpen = false;
-  active: string;
   constructor(
       private modalService: BsModalService,
       private loginService: LoginService,

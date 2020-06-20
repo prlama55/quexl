@@ -16,14 +16,16 @@ import {Auth} from "../../@types/User";
 @Injectable()
 export class QuexlHttpInterceptor implements HttpInterceptor {
     constructor() { }
-    intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    intercept(
+        request: HttpRequest<any>,
+        next: HttpHandler): Observable<HttpEvent<any>> {
         let auth: Auth;
         let token=StorageServices.get('auth')
-        if(token){
-            auth= JSON.parse(token)
+        if(!token && !request.url.includes('login')){
+            StorageServices.remove('auth')
+            window.location.href='/?type=Unauthorized!&reason=Please! login again.'
         }
-        console.log("token====",token)
-        console.log("auth====",auth)
+        auth= JSON.parse(token)
         if (auth) {
             request = request.clone({
                 setHeaders:{

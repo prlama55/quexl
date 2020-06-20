@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import {DatasetService} from "../../dataset/dataset.service";
+import {Component, Input, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-right-side-bar',
@@ -8,13 +7,11 @@ import {DatasetService} from "../../dataset/dataset.service";
 })
 export class RightSideBarComponent implements OnInit {
   showDropDown: boolean= false
-  datasets: any
-  constructor(private datasetServices:DatasetService,) { }
+  @Input() datasets: any
+  constructor() { }
 
   ngOnInit(): void {
-    this.datasetServices.userDataset().subscribe((datasets: DatasetService) => {
-      this.datasets = datasets
-    })
+
   }
 
 }
