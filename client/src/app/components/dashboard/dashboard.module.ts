@@ -7,6 +7,7 @@ import {RightSideBarComponent} from './right-side-bar/right-side-bar.component';
 import {ContentComponent} from './content/content.component';
 import {DatasetService} from "../dataset/dataset.service";
 import {ServicesService} from "../services/services.service";
+import {DashboardService} from "./dashboard.service";
 
 @NgModule({
     declarations: [DashboardComponent, SideBarComponent, RightSideBarComponent, ContentComponent],
@@ -16,7 +17,8 @@ import {ServicesService} from "../services/services.service";
     ],
     providers: [
         DatasetService,
-        ServicesService
+        ServicesService,
+        DashboardService
     ]
 })
 export class DashboardModule {

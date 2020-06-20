@@ -14,7 +14,7 @@
     </div>
     <div class="row" *ngFor="let service of services">
         <div class="col-12">
-            <div class="alert alert-info">
+            <div class="alert alert-info" (click)="selectedService(service)">
                 <b>{{service.title}} :</b> {{service.description}}
             </div>
         </div>

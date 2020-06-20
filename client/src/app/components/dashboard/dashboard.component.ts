@@ -4,6 +4,7 @@ import {Router} from "@angular/router";
 import {Services} from "../../@types/Services";
 import {DatasetService} from "../dataset/dataset.service";
 import {ServicesService} from "../services/services.service";
+import {DashboardService} from "./dashboard.service";
 
 @Component({
   selector: 'app-dashboard',
@@ -11,13 +12,13 @@ import {ServicesService} from "../services/services.service";
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  services: Services
-  datasets: any
+  services: Services[]
+  datasets: any[]
   constructor(
       private loginService: LoginService,
       private router: Router,
       private servicesService: ServicesService,
-      private datasetServices:DatasetService
+      private datasetServices:DatasetService,
   ) {
     if(!this.loginService.isLoggedIn()){
       this.router.navigate(['/'])
@@ -25,12 +26,11 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.servicesService.userServices().subscribe((services: Services)=>{
+    this.servicesService.userServices().subscribe((services: Services[])=>{
       this.services= services
     })
-    this.datasetServices.userDataset().subscribe((datasets: DatasetService) => {
+    this.datasetServices.userDataset().subscribe((datasets: any[]) => {
       this.datasets = datasets
     })
   }
-
 }
