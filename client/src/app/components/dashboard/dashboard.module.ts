@@ -8,12 +8,14 @@ import {ContentComponent} from './content/content.component';
 import {DatasetService} from "../dataset/dataset.service";
 import {ServicesService} from "../services/services.service";
 import {DashboardService} from "./dashboard.service";
+import {ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
     declarations: [DashboardComponent, SideBarComponent, RightSideBarComponent, ContentComponent],
     imports: [
         CommonModule,
-        DashboardRoutingModule
+        DashboardRoutingModule,
+        ReactiveFormsModule
     ],
     providers: [
         DatasetService,
