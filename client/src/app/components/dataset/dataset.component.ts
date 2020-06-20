@@ -9,7 +9,7 @@ import {Services} from "../../@types/Services";
 })
 export class DatasetComponent implements OnInit {
 
-datasets:DatasetService
+  datasets:any
 
   constructor(private datasetServices:DatasetService ) { }
 
