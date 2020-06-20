@@ -7,5 +7,11 @@
         </select>
 
     </div>
-    {{datasets | json}}
+    <div class="row" *ngFor="let dataset of datasets">
+        <div class="col-12">
+            <div class="alert alert-info">
+                <b>{{dataset?.dataFormat}}:</b> {{dataset?.dataString}}
+            </div>
+        </div>
+    </div>
 </div>

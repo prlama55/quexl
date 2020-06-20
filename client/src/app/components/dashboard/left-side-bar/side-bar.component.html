@@ -1,7 +1,7 @@
 <div id="dashboard-left-bar" class="container dashboard-sidebar-container">
     <div class="row">
         <div class="col-12">
-           <label for="search">Search for Data</label>
+           <label for="search">Search for Services</label>
         </div>
     </div>
     <div class="row">
@@ -12,5 +12,11 @@
             </div>
         </div>
     </div>
-{{services | json}}
+    <div class="row" *ngFor="let service of services">
+        <div class="col-12">
+            <div class="alert alert-info">
+                <b>{{service.title}} :</b> {{service.description}}
+            </div>
+        </div>
+    </div>
 </div>

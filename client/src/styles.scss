@@ -256,6 +256,8 @@ svg#clouds {
   border: 1px solid white;
   padding: 10px;
   background: #ddddddc9;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 .navbar{
   background: #ddddddc9;
