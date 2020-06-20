@@ -1,4 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {Dataset} from "../../../@types/Dataset";
 
 @Component({
   selector: 'app-right-side-bar',
@@ -7,7 +8,7 @@ import {Component, Input, OnInit} from '@angular/core';
 })
 export class RightSideBarComponent implements OnInit {
   showDropDown: boolean= false
-  @Input() datasets: any
+  @Input() datasets: Dataset[]
   constructor() { }
 
   ngOnInit(): void {

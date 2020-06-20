@@ -5,6 +5,7 @@ import {Services} from "../../@types/Services";
 import {DatasetService} from "../dataset/dataset.service";
 import {ServicesService} from "../services/services.service";
 import {DashboardService} from "./dashboard.service";
+import {Dataset} from "../../@types/Dataset";
 
 @Component({
   selector: 'app-dashboard',
@@ -13,7 +14,7 @@ import {DashboardService} from "./dashboard.service";
 })
 export class DashboardComponent implements OnInit {
   services: Services[]
-  datasets: any[]
+  datasets: Dataset[]
   constructor(
       private loginService: LoginService,
       private router: Router,
@@ -29,7 +30,7 @@ export class DashboardComponent implements OnInit {
     this.servicesService.userServices().subscribe((services: Services[])=>{
       this.services= services
     })
-    this.datasetServices.userDataset().subscribe((datasets: any[]) => {
+    this.datasetServices.userDataset().subscribe((datasets: Dataset[]) => {
       this.datasets = datasets
     })
   }
