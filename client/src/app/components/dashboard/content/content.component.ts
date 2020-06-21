@@ -61,7 +61,4 @@ export class ContentComponent implements OnInit {
             })
     }
 
-    saveLaunchService(){
-
-    }
 }

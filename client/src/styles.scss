@@ -286,3 +286,6 @@ svg#clouds {
 label{
   font-weight: 500;
 }
+.card-container .card:not(.highlight-card):hover {
+  box-shadow: none;
+}
