@@ -40,4 +40,12 @@ export class LoginService {
   getUserProfile(): UserProfile{
     return  this.userProfile;
   }
+
+  getToken(){
+    const data={
+      refresh_token: this.auth.refresh_token,
+      grant_type: 'refresh_token'
+    }
+    return this.http.post(this.baseUrl.replace('api','oauth')+'/access_token', {},{params:data})
+  }
 }

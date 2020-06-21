@@ -3,6 +3,7 @@ import {Observable, Subject} from 'rxjs';
 import {Services} from "../../@types/Services";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
+import {UserHistory} from "../../@types/UserHistory";
 
 @Injectable({providedIn: 'root'})
 export class DashboardService {
@@ -14,21 +15,28 @@ export class DashboardService {
     }
 
     private service = new Subject<Services>();
-    private dataset = new Subject<any>();
+    private history = new Subject<UserHistory>();
 
     setServiceData(service: Services) {
         this.service.next(service);
+    }
+
+    setHistory(history: UserHistory) {
+        this.history.next(history);
     }
 
     clearService() {
         this.service.next();
     }
 
+    clearHistory() {
+        this.service.next();
+    }
+
     getService(): Observable<Services> {
         return this.service.asObservable();
     }
-
-    saveLaunchService(data) {
-        return this.http.post(this.baseUrl + '/userServices', data)
+    getHistory(): Observable<UserHistory> {
+        return this.history.asObservable();
     }
 }

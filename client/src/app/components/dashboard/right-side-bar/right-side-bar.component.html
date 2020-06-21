@@ -14,4 +14,26 @@
             </div>
         </div>
     </div>
+    <div class="row" *ngFor="let history of histories">
+        <div class="col-12">
+            <div class="alert alert-info">
+                <table>
+                    <tbody>
+                    <tr>
+                        <td><label>Date:</label> {{history.purchaseDate}}</td>
+                    </tr>
+                    <tr>
+                        <td><label>Seller:</label> {{history.seller.username}}</td>
+                    </tr>
+                    <tr>
+                        <td><label>Dataset:</label> {{history.dataset.dataFormat}}</td>
+                    </tr>
+                    <tr>
+                        <td><label>Service:</label> {{history.service.title}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>

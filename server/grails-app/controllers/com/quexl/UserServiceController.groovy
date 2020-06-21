@@ -1,5 +1,6 @@
 package com.quexl
 
+import grails.converters.JSON
 import grails.validation.ValidationException
 import org.springframework.security.access.annotation.Secured
 
@@ -21,8 +22,9 @@ class UserServiceController {
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
     def index(Integer max) {
-        params.max = Math.min(max ?: 10, 100)
-        respond userServiceService.list(params), model:[userServiceCount: userServiceService.count()]
+        params.max = Math.min(max ?: 100, 1000)
+        def list =userServiceService.list(params)
+        render list as JSON
     }
 
     def show(String id) {
@@ -30,7 +32,9 @@ class UserServiceController {
     }
 
     @Transactional
-    def save(UserServices userService) {
+    def save() {
+        println "userService=========="+request.JSON
+        UserServices userService= new UserServices(request.JSON)
         if (userService == null) {
             render status: NOT_FOUND
             return
@@ -48,7 +52,7 @@ class UserServiceController {
             return
         }
 
-        respond userService, [status: CREATED, view:"show"]
+        render userService as JSON
     }
 
     @Transactional
@@ -70,7 +74,7 @@ class UserServiceController {
             return
         }
 
-        respond userService, [status: OK, view:"show"]
+        render userService as JSON
     }
 
     @Transactional

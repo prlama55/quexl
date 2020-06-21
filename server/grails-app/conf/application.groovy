@@ -65,15 +65,15 @@ environments {
 grails.plugin.springsecurity.rest.token.storage.useJwt=true
 grails.plugin.springsecurity.rest.token.storage.jwt.useSignedJwt=true
 grails.plugin.springsecurity.rest.token.storage.jwt.secret='quexl123456@#$%^%$#$#@dfgdfgquexl123456@#$%^%$#$#@dfgdfgquexl123456@#$%^%$#$#@dfgdfgquexl123456@#$%^%$#$#@dfgdfgquexl123456@#$%^%$#$#@dfgdfgquexl123456@#$%^%$#$#@dfgdfg'
-grails.plugin.springsecurity.rest.token.storage.jwt.expiration=900
-grails.plugin.springsecurity.rest.token.storage.jwt.refreshExpiration=3600
+grails.plugin.springsecurity.rest.token.storage.jwt.expiration=3600
+grails.plugin.springsecurity.rest.token.storage.jwt.refreshExpiration=7200
 
 // Added by the Spring Security Core plugin:
 grails.plugin.springsecurity.userLookup.userDomainClassName = 'com.quexl.security.User'
 grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'com.quexl.security.UserRole'
 grails.plugin.springsecurity.authority.className = 'com.quexl.security.Role'
 
-//grails.plugin.springsecurity.useSecurityEventListener = true
+grails.plugin.springsecurity.useSecurityEventListener = true
 grails.plugin.springsecurity.controllerAnnotations.staticRules = [
 	[pattern: '/',               access: ['permitAll']],
 	[pattern: '/error',          access: ['permitAll']],
@@ -84,6 +84,7 @@ grails.plugin.springsecurity.controllerAnnotations.staticRules = [
 	[pattern: '/**/js/**',       access: ['permitAll']],
 	[pattern: '/**/css/**',      access: ['permitAll']],
 	[pattern: '/**/images/**',   access: ['permitAll']],
+	[pattern: '/oauth/',   access: ['permitAll']],
 	[pattern: '/**/favicon.ico', access: ['permitAll']]
 ]
 
@@ -93,10 +94,10 @@ grails.plugin.springsecurity.filterChain.chainMap = [
 	[pattern: '/**/css/**',      filters: 'none'],
 	[pattern: '/**/images/**',   filters: 'none'],
 	[pattern: '/**/favicon.ico', filters: 'none'],
-	[pattern: '/**',             filters: 'JOINED_FILTERS'],
+	[pattern: '/**', filters: 'JOINED_FILTERS'],
 	[pattern: '/api/**', filters: 'JOINED_FILTERS,-anonymousAuthenticationFilter,-exceptionTranslationFilter,-authenticationProcessingFilter,-securityContextPersistenceFilter,-rememberMeAuthenticationFilter'], // Stateless chain
 	[pattern: '/**', filters: 'JOINED_FILTERS,-restTokenValidationFilter,-restExceptionTranslationFilter']   // Traditional chain
-]
+	]
 
 //login
 grails.plugin.springsecurity.rest.login.active=true

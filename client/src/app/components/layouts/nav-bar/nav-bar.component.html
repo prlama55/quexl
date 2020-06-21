@@ -1,44 +1,44 @@
 <div class="container-fluid" id="nav-bar">
   <nav class="navbar navbar-expand-lg navbar-light">
-    <a class="navbar-brand"routerLink="/">Quexl</a>
+    <a class="navbar-brand"routerLink="/dashboard">Quexl</a>
     <button class="navbar-toggler" type="button"  (click)="isOpen=!isOpen" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse" #collapse="bs-collapse" [collapse]="!isOpen" id="navbarSupportedContent">
       <ul class="navbar-nav ml-auto topnav">
-        <li class="nav-item" *ngIf="isLoggedIn" >
+        <li class="nav-item" *ngIf="auth" >
           <a class="nav-link btn" href="#" [routerLink]="['/services']" [routerLinkActive]="['active']"
              [routerLinkActiveOptions]="{exact:true}">Services</a>
         </li>
-        <li class="nav-item" *ngIf="isLoggedIn" >
+        <li class="nav-item" *ngIf="auth" >
           <a class="nav-link btn" href="#" [routerLink]="['/services/add']" [routerLinkActive]="['active']"
              [routerLinkActiveOptions]="{exact:true}">Create Service</a>
         </li>
 
         <!--Added later starts-->
-        <li class="nav-item" *ngIf="isLoggedIn" >
+        <li class="nav-item" *ngIf="auth" >
           <a class="nav-link btn" href="#" [routerLink]="['/datasets/add']" [routerLinkActive]="['active']"
              [routerLinkActiveOptions]="{exact:true}">Create Datasets</a>
         </li>
 
-        <li class="nav-item" *ngIf="isLoggedIn" >
+        <li class="nav-item" *ngIf="auth" >
           <a class="nav-link btn" href="#" [routerLink]="['/datasets']" [routerLinkActive]="['active']"
              [routerLinkActiveOptions]="{exact:true}">Datasets</a>
         </li>
         <!--Added later ends-->
       </ul>
       <ul class="navbar-nav ml-auto topnav">
-        <li class="nav-item" *ngIf="!isLoggedIn">
-          <a class="nav-link btn" href="#" data-toggle="modal" (click)="openModal(template)" data-target="#myModal">Sign In</a>
+        <li class="nav-item" *ngIf="!auth">
+          <a class="nav-link btn" data-toggle="modal" (click)="openModal(template)" data-target="#myModal">Sign In</a>
         </li>
-        <li class="nav-item" *ngIf="!isLoggedIn">
+        <li class="nav-item" *ngIf="!auth">
           <a class="nav-link btn" href="#" data-toggle="modal" data-target="#myModal">Register</a>
         </li>
-        <li class="nav-item" *ngIf="isLoggedIn">
-          <a class="nav-link btn" href="#"> <i class="fa fa-user"></i> {{userProfile.username}}</a>
+        <li class="nav-item" *ngIf="auth">
+          <a class="nav-link btn" href="#"> <i class="fa fa-user"></i> {{auth.username}}</a>
         </li>
-        <li class="nav-item" *ngIf="isLoggedIn">
+        <li class="nav-item" *ngIf="auth">
           <a class="nav-link btn" role="button" (click)="logout()"><i class="fa fa-sign-out"></i> Logout</a>
         </li>
       </ul>
@@ -55,27 +55,20 @@
         <form [formGroup]="loginForm" (ngSubmit)="login()" novalidate>
           <!-- Modal body -->
           <div class="modal-body">
-            <div class="alert alert-success" *ngIf="message?.status===200">{{message?.message}}</div>
-            <div class="alert alert-danger" *ngIf="message && message?.status!==200">
-              <i class="fa fa-warning"></i> {{message?.message}} username or password. Please try again!
-            </div>
-            <label class="sr-only">Username</label>
-            <div class="input-group mb-3">
-              <div class="input-group-prepend">
-                <span class="input-group-text" id="basic-addon1"><i class="fa fa-user"></i></span>
+            <div class="form-group">
+              <label for="username">Username</label>
+              <input id="username" type="text" formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
+              <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+                <div *ngIf="f.username.errors.required">Username is required</div>
               </div>
-              <input autofocus type="text" formControlName="username" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
             </div>
-
-
-            <label class="sr-only" for="Password">Password</label>
-            <div class="input-group mb-2">
-              <div class="input-group-prepend">
-                <span class="input-group-text" id="basic-addon2"><i class="fa fa-key"></i></span>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input id="password" type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+              <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                <div *ngIf="f.password.errors.required">Password is required</div>
               </div>
-              <input id="Password" formControlName="password" type="password" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="basic-addon2">
             </div>
-
           </div>
 
           <!-- Modal footer -->

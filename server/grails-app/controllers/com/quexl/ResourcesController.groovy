@@ -2,6 +2,7 @@ package com.quexl
 
 import com.quexl.security.User
 import com.quexl.utilities.UtilityService
+import grails.converters.JSON
 import grails.validation.ValidationException
 import org.springframework.security.access.annotation.Secured
 
@@ -13,7 +14,7 @@ import static org.springframework.http.HttpStatus.OK
 import grails.gorm.transactions.ReadOnly
 import grails.gorm.transactions.Transactional
 
-@Secured(["ROLE_ADMIN", 'ROLE_SUPER_ADMIN'])
+@Secured('permitAll')
 @ReadOnly
 class ResourcesController {
     UtilityService utilityService
@@ -24,8 +25,9 @@ class ResourcesController {
 
     def index(Integer max) {
         println "max = $max"
-        params.max = Math.min(max ?: 10, 100)
-        respond resourcesService.list(params), model:[resourcesCount: resourcesService.count()]
+        params.max = Math.min(max ?: 100, 1000)
+        def list= resourcesService.list(params)
+        render list as JSON
     }
 
     def show(String id) {
@@ -54,7 +56,7 @@ class ResourcesController {
             return
         }
 
-        respond resources, [status: CREATED, view:"show"]
+        render resources as JSON
     }
 
     @Transactional
@@ -76,7 +78,7 @@ class ResourcesController {
             return
         }
 
-        respond resources, [status: OK, view:"show"]
+        render resources as JSON
     }
 
     @Transactional

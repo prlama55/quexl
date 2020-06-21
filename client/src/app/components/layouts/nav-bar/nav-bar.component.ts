@@ -1,12 +1,11 @@
 import {Component, OnInit, TemplateRef} from '@angular/core';
 import {BsModalRef, BsModalService} from "ngx-bootstrap/modal";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {HttpMessage} from "../../../@types/HttpMessage";
 import {LoginService} from "../../user/login.service";
-import {StorageServices} from "../../../helpers/StorageServices";
-import {AUTH_KEY} from "../../../helpers/Constants";
-import {UserProfile} from "../../../@types/User";
+import {Auth} from "../../../@types/User";
 import {ActivatedRoute, Router} from "@angular/router";
+import {AuthenticationService} from "../../../services/authentication.service";
+import {first} from "rxjs/operators";
 @Component({
   selector: 'app-nav-bar',
   templateUrl: './nav-bar.component.html',
@@ -15,25 +14,30 @@ import {ActivatedRoute, Router} from "@angular/router";
 export class NavBarComponent implements OnInit {
   modalRef: BsModalRef;
   loginForm: FormGroup;
-  message: HttpMessage;
-  isLoggedIn: boolean
-  userProfile: UserProfile
+  loading = false;
+  submitted = false;
+  returnUrl: string;
+  error = '';
+  auth: Auth
   isOpen = false;
   constructor(
       private modalService: BsModalService,
+      private authService: AuthenticationService,
       private loginService: LoginService,
       private fb: FormBuilder,
-      private router: Router
+      private router: Router,
+      private route: ActivatedRoute,
   ) {
     this.loginForm = this.createFormGroup();
-    this.isLoggedIn= this.loginService.isLoggedIn()
-    this.userProfile= this.loginService.userProfile
-  }
-  ngOnInit(): void {
-    console.log(this.router.url)
-    if(this.loginService.isLoggedIn()){
+    // redirect to home if already logged in
+    if (this.authService.authValue) {
+      this.auth= this.authService.authValue
       this.router.navigate(['/dashboard']);
     }
+  }
+  ngOnInit(): void {
+    // get return url from route parameters or default to '/'
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
   }
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
@@ -46,27 +50,30 @@ export class NavBarComponent implements OnInit {
     });
   }
   async login(){
-    console.log(this.loginForm.value)
-    this.loginService.login(this.loginForm.value).subscribe(data=>{
-      StorageServices.save(AUTH_KEY, JSON.stringify(data))
-      location.href='/dashboard'
-    },error => {
-      this.message=error
-      StorageServices.remove(AUTH_KEY)
-      this.loginForm.patchValue({
-        username:'',
-        password: ''
-      })
-    })
+    this.submitted = true;
+    // stop here if form is invalid
+    if (this.loginForm.invalid) {
+      return;
+    }
+    this.loading = true;
+    this.authService.login(this.loginForm.value)
+        .pipe(first())
+        .subscribe({
+          next: () => {
+            window.location.href=this.returnUrl
+          },
+          error: error => {
+            this.error = error;
+            this.loading = false;
+          }
+        });
   }
 
+  // convenience getter for easy access to form fields
+  get f() { return this.loginForm.controls; }
+
   logout(){
-    StorageServices.remove(AUTH_KEY)
-    this.loginForm.patchValue({
-      username:'',
-      password: ''
-    })
-    this.router.navigate(['/']);
-    location.reload()
+    this.authService.logout()
+    window.location.href='/'
   }
 }

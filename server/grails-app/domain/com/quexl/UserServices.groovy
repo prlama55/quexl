@@ -1,6 +1,7 @@
 package com.quexl
 
 import com.quexl.security.User
+import enums.Status
 import org.bson.types.ObjectId
 
 class UserServices {
@@ -12,6 +13,7 @@ class UserServices {
     Dataset dataset
     Date purchaseDate = new Date()
     Date updatedDate
+    Status status=Status.PENDING
     Map<String, String> comment = [:]  // key:userId , value : Comments
     static constraints = {
         comment nullable: true

@@ -1,15 +1,22 @@
 <div id="dashboard-content" class="container dashboard-container">
+    <div class="row" *ngIf="errorMessage">
+        <div class="col-12">
+            <div class="alert alert-danger">
+                <i class="fa fa-info-circle mr-2"></i> {{errorMessage}}
+            </div>
+        </div>
+    </div>
     <div class="row">
         <div class="col-12" *ngIf="service">
             <span class="text-title"> Selected Service Details</span><span
                 class="seller-details"> Seller Email : {{service.seller.email}}</span>
-            <form [formGroup]="launchServiceFrom" (submit)="launchService(service)" method="post">
+            <form [formGroup]="launchServiceFrom" (submit)="launchService()" method="post">
                 <div class="form-group row">
                     <div class="col-md-4">
                         <span for="serviceTitle" class="font-weight-bold">Service Title</span>
                     </div>
                     <div class="col-md-8">
-                        <input type="text" class="form-control col-8" readonly value="{{service.title}}"
+                        <input type="text" class="form-control" readonly value="{{service.title}}"
                                id="serviceTitle" name="serviceTitle">
                     </div>
                 </div>
@@ -18,7 +25,7 @@
                         <span for="serviceDescription" class="font-weight-bold">Service Description</span>
                     </div>
                     <div class="col-md-8">
-                        <input type="text" class="form-control col-8" readonly value="{{service.description}}"
+                        <input type="text" class="form-control" readonly value="{{service.description}}"
                                id="serviceDescription" name="serviceDescription">
                     </div>
                 </div>
@@ -27,7 +34,7 @@
                         <span for="servicePrice" class="font-weight-bold">Service Price</span>
                     </div>
                     <div class="col-md-8">
-                        <input type="number" class="form-control col-8" readonly value="{{service.price}}"
+                        <input type="number" class="form-control" readonly value="{{service.price}}"
                                id="servicePrice" name="servicePrice">
                     </div>
                 </div>
@@ -36,14 +43,20 @@
                         <span for="dataset" class="font-weight-bold">Choose Dataset</span>
                     </div>
                     <div class="col-md-8">
-                        <select name="dataset" class="form-control col-8" *ngIf="datasets">
-                            <option *ngFor="let dataset of datasets" value="{{dataset}}">{{dataset.dataFormat}}</option>
+                        <select formControlName="dataset" class="form-control">
+                            <option [ngValue]="null" disabled>Choose your dataset</option>
+                            <option *ngFor="let ds of datasets" [ngValue]="ds">
+                                {{ ds.dataFormat }}
+                            </option>
                         </select>
                     </div>
                 </div>
                 <div class="form-group row">
-                    <div class="col-md-12">
-                        <button type="submit" class="btn btn-success float-right">Launch Service</button>
+                    <div class="col-md-4"></div>
+                    <div class="col-md-8">
+                        <button type="submit" class="btn btn-success form-control">
+                            <h4>Launch Service</h4>
+                        </button>
                     </div>
                 </div>
             </form>

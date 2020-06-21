@@ -4,6 +4,8 @@ import {DashboardService} from "../dashboard.service";
 import {Dataset} from "../../../@types/Dataset";
 import {FormGroup, FormBuilder, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
+import {DatasetService} from "../../dataset/dataset.service";
+import {UserHistory} from "../../../@types/UserHistory";
 
 
 @Component({
@@ -17,11 +19,11 @@ export class ContentComponent implements OnInit {
     launchServiceFrom: FormGroup;
     errorMessage: string
 
-
     constructor(
         private fb: FormBuilder,
         private router: Router,
-        private dashboardService: DashboardService
+        private dashboardService: DashboardService,
+        private datasetService: DatasetService
     ) {
         this.dashboardService.getService().subscribe(service => {
             this.service = service
@@ -40,12 +42,21 @@ export class ContentComponent implements OnInit {
         });
     }
 
-    launchService(service: Services) {
-        console.log("Launching service", service)
-        this.dashboardService.saveLaunchService(this.launchServiceFrom.value)
-            .subscribe(user=>{
-                this.router.navigate(['/dashbaord'])
+    launchService() {
+        const dataset=this.launchServiceFrom.value.dataset
+        const data={
+            seller: this.service.seller.id,
+            buyer: dataset.buyer.id,
+            service: this.service.id,
+            dataset:dataset.id
+        }
+        this.datasetService.saveLaunchService(data)
+            .subscribe((history: UserHistory)=>{
+                this.dashboardService.setHistory(history)
+                this.dashboardService.clearService()
+                this.errorMessage= "Service Successfully lunched."
             },error => {
+                this.dashboardService.clearHistory()
                 this.errorMessage= error.message
             })
     }

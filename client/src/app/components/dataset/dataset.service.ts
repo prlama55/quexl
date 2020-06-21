@@ -22,4 +22,12 @@ export class DatasetService {
   updateDataset(id: string, data: any){
     return this.http.post(this.baseUrl+'/datasets/'+id, data)
   }
+
+  saveLaunchService(data) {
+    return this.http.post(this.baseUrl + '/userServices', data)
+  }
+
+  histories() {
+    return this.http.get(this.baseUrl + '/userServices')
+  }
 }

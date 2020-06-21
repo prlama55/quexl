@@ -2,6 +2,7 @@ package com.quexl
 
 import com.quexl.security.User
 import com.quexl.utilities.UtilityService
+import grails.converters.JSON
 import grails.validation.ValidationException
 import org.springframework.security.access.annotation.Secured
 
@@ -25,8 +26,9 @@ class DatasetController {
 
     def index(Integer max) {
 
-        params.max = Math.min(max ?: 10, 100)
-        respond datasetService.list(params), model:[datasetCount: datasetService.count()]
+        params.max = Math.min(max ?: 100, 1000)
+        def list= datasetService.list(params)
+        render list as JSON
     }
 
     def show(Long id) {
@@ -56,7 +58,7 @@ class DatasetController {
             return
         }
 
-        respond dataset, [status: CREATED, view:"show"]
+        render dataset as JSON
     }
 
     @Transactional
@@ -78,7 +80,7 @@ class DatasetController {
             return
         }
 
-        respond dataset, [status: OK, view:"show"]
+        render dataset as JSON
     }
 
     @Transactional
