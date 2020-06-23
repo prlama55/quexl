@@ -2,17 +2,13 @@ package quexl
 
 class UrlMappings {
 
-    static mappings = {
+  static mappings = {
 
-        "/api/users"(resources:'user')
-        "/api/services"(resources:'resources')
-        "/api/datasets"(resources:'dataset')
-        "/api/historyElements"(resources:'historyElement')
-        "/api/histories"(resources:'history')
-        "/api/userServices"(resources:'userService')
-
-        "/"(controller: 'application', action:'index')
-        "500"(view: '/error')
-        "404"(view: '/notFound')
-    }
+    "/api/users"(resources: 'user')
+    "/api/services"(resources: 'userService')
+    "/api/datasets"(resources: 'dataset')
+    "/api/histories"(resources: 'history')
+    "500"(view: '/error')
+    "404"(view: '/notFound')
+  }
 }

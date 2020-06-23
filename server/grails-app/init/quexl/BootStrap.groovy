@@ -1,10 +1,7 @@
 package quexl
 
 import com.quexl.security.*
-import marshaller.DatasetMarshaller
-import marshaller.UserHistoryMarshaller
-import marshaller.UserMarshaller
-import marshaller.UserServiceMarshaller
+import marshaller.*
 
 class BootStrap {
 
@@ -22,7 +19,9 @@ class BootStrap {
         UserMarshaller.register()
         UserServiceMarshaller.register()
         DatasetMarshaller.register()
-        UserHistoryMarshaller.register()
+        HistoryMarshaller.register()
+        HistoriesMarshaller.register()
+        CommentsMarshaller.register()
     }
     def destroy = {
     }

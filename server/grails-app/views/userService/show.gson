@@ -1,0 +1,7 @@
+import com.quexl.UserService
+
+model {
+	UserService resources
+}
+
+json tmpl.resources(resources)

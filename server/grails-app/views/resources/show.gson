@@ -1,7 +1,0 @@
-import com.quexl.Resources
-
-model {
-	Resources resources
-}
-
-json tmpl.resources(resources)

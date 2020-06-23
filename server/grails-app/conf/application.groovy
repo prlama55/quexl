@@ -4,7 +4,7 @@ environments {
 		serverURL = 'http://localhost:8080'
 		grails {
 			mongodb {
-				databaseName = 'quexl_dev'
+				databaseName = 'quexl'
 				host = 'localhost'
 				port = 27017
 				stateless = false // whether to use stateless sessions by default

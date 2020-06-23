@@ -1,0 +1,8 @@
+import com.quexl.UserService
+
+model {
+	Iterable<UserService> resourcesList
+}
+
+json tmpl.resources(resourcesList ?: [])
+

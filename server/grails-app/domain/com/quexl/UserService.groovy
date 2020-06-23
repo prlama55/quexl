@@ -3,19 +3,19 @@ package com.quexl
 import com.quexl.security.User
 import org.bson.types.ObjectId
 
-class Dataset {
+class UserService {
 
   ObjectId id
-  String dataFormat
-  String dataString
-  User buyer
+  String title
+  String description
+  double price = 0.0
   Date createdAt = new Date()
   Date updated
+  User seller
 
   static constraints = {
-    dataFormat nullable: false
-    dataString nullable: false
+    title nullable: false
+    description nullable: false
     updated nullable: true
-
   }
 }

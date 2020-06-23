@@ -1,18 +1,71 @@
 package com.quexl
 
-import grails.gorm.services.Service
+import com.quexl.security.User
+import com.quexl.utilities.UtilityService
+import grails.gorm.transactions.Transactional
 
-@Service(History)
-interface HistoryService {
+@Transactional
+class HistoryService implements IHistoryService {
 
-    History get(String id)
+  UtilityService utilityService
 
-    List<History> list(Map args)
+  @Override
+  History get(String id) {
+    return History.findById(id)
+  }
 
-    Long count()
+  @Override
+  Map<String, History[]> list(Map args) {
+    Map<String, History[]> mapHistories = [:]
+    User currentUser = utilityService.currentUser
+    if (!currentUser) {
+      mapHistories.sellerHistory = []
+      mapHistories.buyerHistory = []
+    } else {
+      def sellerHistory = History.findAllBySeller(currentUser)
+      def buyerHistory = History.findAllByBuyer(currentUser)
+      mapHistories.sellerHistory = sellerHistory
+      mapHistories.buyerHistory = buyerHistory
+    }
+    return mapHistories
+  }
 
-    void delete(String id)
+  @Override
+  Long count() {
+    return null
+  }
 
-    History save(History history)
+  @Override
+  void delete(String id) {
 
+  }
+
+  @Override
+  History save(History history) {
+    try {
+      history.buyer=utilityService.currentUser
+      history.seller=history.service.seller
+      if (history.save(flush: true, failOnError: true)) {
+        def historyElement = new HistoryElement()
+        historyElement.properties = history.properties
+        historyElement.history = history
+        if (historyElement.save(flush: true, failOnError: true)) {
+          if (history.comment) {
+            Comments comments = new Comments()
+            comments.history = history
+            comments.historyElement = historyElement
+            comments.user = utilityService.currentUser
+            comments.comment = history.comment
+            comments.service = history.service
+            comments.dataset = history.dataset
+            comments.save(flush: true, failOnError: true)
+          }
+
+        }
+      }
+    } catch (Exception e) {
+      return null
+    }
+    return history
+  }
 }

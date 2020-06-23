@@ -1,91 +1,94 @@
 package com.quexl
 
+import com.quexl.security.User
+import com.quexl.utilities.UtilityService
 import grails.converters.JSON
 import grails.validation.ValidationException
 import org.springframework.security.access.annotation.Secured
 
-import static org.springframework.http.HttpStatus.CREATED
 import static org.springframework.http.HttpStatus.NOT_FOUND
 import static org.springframework.http.HttpStatus.NO_CONTENT
-import static org.springframework.http.HttpStatus.OK
 
 import grails.gorm.transactions.ReadOnly
 import grails.gorm.transactions.Transactional
 
+@Secured('permitAll')
 @ReadOnly
-@Secured(["ROLE_ADMIN", 'ROLE_SUPER_ADMIN'])
 class UserServiceController {
+  UtilityService utilityService
+  ISellerService sellerService
 
-    UserServiceService userServiceService
+  static responseFormats = ['json', 'xml']
+  static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
-    static responseFormats = ['json', 'xml']
-    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
+  def index(Integer max) {
+    println "max = $max"
+    params.max = Math.min(max ?: 100, 1000)
+    def list = sellerService.list(params)
+    render list as JSON
+  }
 
-    def index(Integer max) {
-        params.max = Math.min(max ?: 100, 1000)
-        def list =userServiceService.list(params)
-        render list as JSON
+  def show(String id) {
+    UserService service = UserService.findById(id)
+    render service as JSON
+  }
+
+  @Transactional
+  def save() {
+    User user = utilityService.currentUser
+    request.JSON.seller = user
+    UserService resources = new UserService(request.JSON)
+    if (user == null) {
+      render status: NOT_FOUND
+      return
+    }
+    if (resources.hasErrors()) {
+      transactionStatus.setRollbackOnly()
+      respond resources.errors
+      return
     }
 
-    def show(String id) {
-        respond userServiceService.get(id)
+    try {
+      sellerService.save(resources)
+    } catch (ValidationException e) {
+      respond resources.errors
+      return
     }
 
-    @Transactional
-    def save() {
-        println "userService=========="+request.JSON
-        UserServices userService= new UserServices(request.JSON)
-        if (userService == null) {
-            render status: NOT_FOUND
-            return
-        }
-        if (userService.hasErrors()) {
-            transactionStatus.setRollbackOnly()
-            respond userService.errors
-            return
-        }
+    render resources as JSON
+  }
 
-        try {
-            userServiceService.save(userService)
-        } catch (ValidationException e) {
-            respond userService.errors
-            return
-        }
-
-        render userService as JSON
+  @Transactional
+  def update(UserService resources) {
+    if (resources == null) {
+      render status: NOT_FOUND
+      return
+    }
+    if (resources.hasErrors()) {
+      transactionStatus.setRollbackOnly()
+      respond resources.errors
+      return
     }
 
-    @Transactional
-    def update(UserServices userService) {
-        if (userService == null) {
-            render status: NOT_FOUND
-            return
-        }
-        if (userService.hasErrors()) {
-            transactionStatus.setRollbackOnly()
-            respond userService.errors
-            return
-        }
-
-        try {
-            userServiceService.save(userService)
-        } catch (ValidationException e) {
-            respond userService.errors
-            return
-        }
-
-        render userService as JSON
+    try {
+      sellerService.save(resources)
+    } catch (ValidationException e) {
+      respond resources.errors
+      return
     }
 
-    @Transactional
-    def delete(String id) {
-        if (id == null) {
-            render status: NOT_FOUND
-            return
-        }
+    render resources as JSON
+  }
 
-        userServiceService.delete(id)
-
-        render status: NO_CONTENT
+  @Transactional
+  def delete(String id) {
+    if (id == null) {
+      render status: NOT_FOUND
+      return
     }
+
+    sellerService.delete(id)
+
+    render status: NO_CONTENT
+  }
 }

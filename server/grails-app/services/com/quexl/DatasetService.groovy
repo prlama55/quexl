@@ -1,18 +1,40 @@
 package com.quexl
 
-import grails.gorm.services.Service
+import com.quexl.utilities.UtilityService
+import grails.gorm.transactions.Transactional
 
-@Service(Dataset)
-interface DatasetService {
+@Transactional
+class DatasetService implements IDatasetService {
+  UtilityService utilityService
 
-    Dataset get(String id)
+  @Override
+  Dataset get(String id) {
+    return Dataset.findById(id)
+  }
 
-    List<Dataset> list(Map args)
+  @Override
+  List<Dataset> list(Map args) {
+    return Dataset.findAllByBuyer(utilityService?.currentUser)
+  }
 
-    Long count()
+  @Override
+  Long count() {
+    return null
+  }
 
-    void delete(String id)
+  @Override
+  void delete(String id) {
 
-    Dataset save(Dataset dataset)
+  }
 
+  @Override
+  Dataset save(Dataset dataset) {
+    try {
+      dataset.buyer = utilityService.currentUser
+      dataset.save(flush: true, failOnError: true)
+    } catch (Exception e) {
+      return null
+    }
+    return null
+  }
 }
