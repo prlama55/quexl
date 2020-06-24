@@ -3,8 +3,8 @@
 ### Running server `Grails API`
 `gradlew server:bootRun`
 
-### Running client `Vue Application`
+### Running client `Angular Application`
 `gradlew client:bootRun`
 
-### Running client `Both Application`
+### Running client and server `Both Application`
 `gradlew bootRun --parallel`

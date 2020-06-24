@@ -11,7 +11,6 @@ import static org.springframework.http.HttpStatus.OK
 import grails.gorm.transactions.ReadOnly
 import grails.gorm.transactions.Transactional
 
-@Secured(["ROLE_ADMIN", 'ROLE_SUPER_ADMIN'])
 @ReadOnly
 class UserController {
 
@@ -19,7 +18,7 @@ class UserController {
 
     static responseFormats = ['json', 'xml']
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
-
+    @Secured(["ROLE_ADMIN", 'ROLE_SUPER_ADMIN'])
     def index(Integer max) {
         params.max = Math.min(max ?: 100, 100)
         respond userService.list(params), model:[userCount: userService.count()]
@@ -30,20 +29,12 @@ class UserController {
     }
 
     @Transactional
+    @Secured("permitAll")
     def save(User user) {
-        if (user == null) {
-            render status: NOT_FOUND
-            return
-        }
-        if (user.hasErrors()) {
-            transactionStatus.setRollbackOnly()
-            respond user.errors
-            return
-        }
-
         try {
+            user.primaryRole = Roles.ROLE_ADMIN.toString()
             User newUser= userService.save(user)
-            Role role= Role.findByAuthority(user.primaryRole)
+            Role role= Role.findOrSaveWhere(authority: Roles.ROLE_ADMIN.toString())
             if(newUser && role){
                 UserRole.create newUser, role
                 UserRole.withSession {
@@ -52,6 +43,8 @@ class UserController {
                 }
             }
         } catch (ValidationException e) {
+
+            println "e.printStackTrace() = "+e.printStackTrace()
             respond user.errors
             return
         }

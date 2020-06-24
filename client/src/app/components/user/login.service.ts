@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
-import {Auth, Login, UserProfile} from "../../@types/User";
+import {Auth, Login, UserProfile,Register} from "../../@types/User";
 import {StorageServices} from "../../helpers/StorageServices";
 import {AUTH_KEY} from "../../helpers/Constants";
 
@@ -26,6 +26,10 @@ export class LoginService {
 
   login(data: Login){
     return this.http.post(this.baseUrl+'/login', data)
+  }
+
+  register(data: Register){
+    return this.http.post(this.baseUrl+'/users', data)
   }
 
   logout(){

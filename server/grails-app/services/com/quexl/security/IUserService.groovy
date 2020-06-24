@@ -2,7 +2,6 @@ package com.quexl.security
 
 import grails.gorm.services.Service
 
-@Service(User)
 interface IUserService {
 
     User get(String id)
