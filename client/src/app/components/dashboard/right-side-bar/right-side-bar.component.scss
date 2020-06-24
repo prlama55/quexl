@@ -1,0 +1,15 @@
+.pending, .in-progress, .requested{
+  border-bottom: 2px solid white
+}
+.pending h4{
+  color: #cc743e;
+}
+.requested h4{
+  color: #224fc4;
+}
+.completed h4{
+  color: #538d7a;
+}
+.in-progress h4{
+  color: #f9b969;
+}

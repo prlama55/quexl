@@ -14,7 +14,8 @@ class HistoryMarshaller {
           dataset     : history?.dataset,
           service     : history?.service,
           histories   : history?.histories,
-          comments    : history?.comments
+          comments    : history?.comments,
+          status      : history?.status?.status
       ]
     }
   }

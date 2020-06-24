@@ -1,11 +1,11 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Services} from "../../../@types/Services";
+import {Service} from "../../../@types/Services";
 import {DashboardService} from "../dashboard.service";
 import {Dataset} from "../../../@types/Dataset";
 import {FormGroup, FormBuilder, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 import {DatasetService} from "../../dataset/dataset.service";
-import {UserHistory} from "../../../@types/UserHistory";
+import {HistoryElement} from "../../../@types/History";
 
 
 @Component({
@@ -15,7 +15,7 @@ import {UserHistory} from "../../../@types/UserHistory";
 })
 export class ContentComponent implements OnInit {
     @Input() datasets: Dataset[]
-    service: Services;
+    service: Service;
     launchServiceFrom: FormGroup;
     errorMessage: string
 
@@ -51,7 +51,7 @@ export class ContentComponent implements OnInit {
             dataset:dataset.id
         }
         this.datasetService.saveLaunchService(data)
-            .subscribe((history: UserHistory)=>{
+            .subscribe((history: HistoryElement)=>{
                 this.dashboardService.setHistory(history)
                 this.dashboardService.clearService()
                 this.errorMessage= "Service Successfully lunched."

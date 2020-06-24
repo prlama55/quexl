@@ -1,18 +1,40 @@
 package com.quexl.security
 
-import grails.gorm.services.Service
+import grails.gorm.transactions.Transactional
 
-@Service(User)
-interface UserService {
+@Transactional
+class UserService implements IUserService {
 
-    User get(String id)
+  @Override
+  User get(String id) {
+    return User.findById(id)
+  }
 
-    List<User> list(Map args)
+  @Override
+  List<User> list(Map args) {
+    return User.list(args)
+  }
 
-    Long count()
+  @Override
+  Long count() {
+    return null
+  }
 
-    void delete(String id)
+  @Override
+  User delete(String id) {
+    User user = get(id)
+    user.enabled = false
+    user.accountLocked = true
+    user.save(flush: true)
+  }
 
-    User save(User user)
-
+  @Override
+  User save(User user) {
+    try {
+      user.save(flush: true, failOnError: true)
+    } catch (Exception e) {
+      return null
+    }
+    return user
+  }
 }

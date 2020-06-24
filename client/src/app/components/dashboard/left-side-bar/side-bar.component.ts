@@ -1,7 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Services} from "../../../@types/Services";
+import {Service} from "../../../@types/Services";
 import {DashboardService} from "../dashboard.service";
-import {DatasetService} from "../../dataset/dataset.service";
 
 @Component({
   selector: 'app-left-side-bar',
@@ -9,13 +8,13 @@ import {DatasetService} from "../../dataset/dataset.service";
   styleUrls: ['./side-bar.component.scss']
 })
 export class SideBarComponent implements OnInit {
-  @Input() services: Services[]
+  @Input() services: Service[]
   constructor(private dashboardService: DashboardService) { }
 
   ngOnInit(): void {
 
   }
-  selectedService(service: Services): void{
+  selectedService(service: Service): void{
     this.dashboardService.setServiceData(service)
   }
 }

@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {Observable, Subject} from 'rxjs';
-import {Services} from "../../@types/Services";
+import {Service} from "../../@types/Services";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
-import {UserHistory} from "../../@types/UserHistory";
+import {HistoryElement} from "../../@types/History";
 
 @Injectable({providedIn: 'root'})
 export class DashboardService {
@@ -14,14 +14,14 @@ export class DashboardService {
 
     }
 
-    private service = new Subject<Services>();
-    private history = new Subject<UserHistory>();
+    private service = new Subject<Service>();
+    private history = new Subject<HistoryElement>();
 
-    setServiceData(service: Services) {
+    setServiceData(service: Service) {
         this.service.next(service);
     }
 
-    setHistory(history: UserHistory) {
+    setHistory(history: HistoryElement) {
         this.history.next(history);
     }
 
@@ -33,10 +33,10 @@ export class DashboardService {
         this.service.next();
     }
 
-    getService(): Observable<Services> {
+    getService(): Observable<Service> {
         return this.service.asObservable();
     }
-    getHistory(): Observable<UserHistory> {
+    getHistory(): Observable<HistoryElement> {
         return this.history.asObservable();
     }
 }

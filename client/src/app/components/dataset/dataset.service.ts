@@ -12,7 +12,6 @@ export class DatasetService {
     this.baseUrl= environment.baseUrl
   }
   userDataset(){
-    console.log("===============")
     return this.http.get(this.baseUrl+'/datasets')
   }
 
@@ -24,10 +23,10 @@ export class DatasetService {
   }
 
   saveLaunchService(data) {
-    return this.http.post(this.baseUrl + '/userServices', data)
+    return this.http.post(this.baseUrl + '/histories', data)
   }
 
   histories() {
-    return this.http.get(this.baseUrl + '/userServices')
+    return this.http.get(this.baseUrl + '/histories')
   }
 }

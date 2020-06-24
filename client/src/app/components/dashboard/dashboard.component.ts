@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {LoginService} from "../user/login.service";
 import {Router} from "@angular/router";
-import {Services} from "../../@types/Services";
+import {Service, Services} from "../../@types/Services";
 import {DatasetService} from "../dataset/dataset.service";
 import {ServicesService} from "../services/services.service";
-import {DashboardService} from "./dashboard.service";
 import {Dataset} from "../../@types/Dataset";
 
 @Component({
@@ -13,7 +12,7 @@ import {Dataset} from "../../@types/Dataset";
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  services: Services[]
+  services: Service
   datasets: Dataset[]
   constructor(
       private loginService: LoginService,
@@ -27,8 +26,9 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.servicesService.userServices().subscribe((services: Services[])=>{
-      this.services= services
+    this.servicesService.userServices().subscribe((services: Services)=>{
+      console.log("services===",services)
+      this.services= services.otherServices
     })
     this.datasetServices.userDataset().subscribe((datasets: Dataset[]) => {
       this.datasets = datasets

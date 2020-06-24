@@ -6,11 +6,17 @@ export interface Buyer extends User{
 
 }
 
-export interface Services {
+export interface Service {
     id: string
     price: number
     seller: Seller,
     title: string
     createdAt: string,
     description: string
+    status: string
+}
+
+export interface Services{
+    myServices: Service
+    otherServices: Service
 }
