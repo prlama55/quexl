@@ -15,18 +15,19 @@ export class RightSideBarComponent implements OnInit {
     pendings: HistoryElement[]
     inprogress: HistoryElement[]
     completed: HistoryElement[]
-    requested: HistoryElement[]
+
     filterBy: string = ''
 
+    requested: HistoryElement[]
+    buyerInprogress: HistoryElement[]
+    buyerCompleted: HistoryElement[]
+    buyerRequested: HistoryElement[]
     constructor(
         private datasetService: DatasetService,
         private dashboardService: DashboardService
     ) {
         this.dashboardService.getHistory().subscribe(history => {
-            if (history) {
-                let histories = this.histories
-                this.histories = [history, ...histories]
-            }
+            this.refresh()
         })
     }
 
@@ -40,28 +41,28 @@ export class RightSideBarComponent implements OnInit {
         this.completed = []
         switch (status) {
             case 'Pending':
-                this.pendings = this.histories.filter((data) => {
+                this.pendings = this.histories?.filter((data) => {
                     return data.status === 'Pending'
                 })
                 break;
             case 'In progress':
-                this.inprogress = this.histories.filter((data) => {
+                this.inprogress = this.histories?.filter((data) => {
                     return data.status === 'In progress'
                 })
                 break;
             case 'Completed':
-                this.completed = this.histories.filter((data) => {
+                this.completed = this.histories?.filter((data) => {
                     return data.status === 'Completed'
                 })
                 break;
             default:
-                this.pendings = this.histories.filter((data) => {
+                this.pendings = this.histories?.filter((data) => {
                     return data.status === 'Pending'
                 })
-                this.inprogress = this.histories.filter((data) => {
+                this.inprogress = this.histories?.filter((data) => {
                     return data.status === 'In progress'
                 })
-                this.completed = this.histories.filter((data) => {
+                this.completed = this.histories?.filter((data) => {
                     return data.status === 'Completed'
                 })
                 break;
@@ -75,9 +76,19 @@ export class RightSideBarComponent implements OnInit {
 
     refresh(): void {
         this.datasetService.histories().subscribe((histories: UserHistory) => {
-            this.histories = histories.buyerHistory
-            this.requested = histories.sellerHistory.filter(data => {
+            this.histories = histories.sellerHistory
+            this.requested = histories.sellerHistory?.filter(data => {
                 return data.status === 'Pending'
+            })
+            this.buyerRequested = histories.buyerHistory?.filter(data => {
+                return data.status === 'Pending'
+            })
+
+            this.buyerInprogress= histories.buyerHistory?.filter(data => {
+                return data.status === 'In progress'
+            })
+            this.buyerCompleted= histories.buyerHistory?.filter(data => {
+                return data.status === 'Completed'
             })
             this.filterList()
         })
@@ -86,8 +97,6 @@ export class RightSideBarComponent implements OnInit {
 
     acceptOffer(history: HistoryElement, status: string) {
         history.status = status
-        this.datasetService.saveLaunchService(history).subscribe(history => {
-            this.refresh()
-        })
+        this.datasetService.setHistory(history)
     }
 }

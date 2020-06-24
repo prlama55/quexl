@@ -27,7 +27,6 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.servicesService.userServices().subscribe((services: Services)=>{
-      console.log("services===",services)
       this.services= services.otherServices
     })
     this.datasetServices.userDataset().subscribe((datasets: Dataset[]) => {

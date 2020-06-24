@@ -16,10 +16,12 @@ class History {
   User updatedBy
   Status status
   String comment // last comment
+  String outputDataset
   static constraints = {
     updatedDate nullable: true
     updatedBy nullable: true
     comment nullable: true
+    outputDataset nullable: true
   }
 
   def beforeValidate() {

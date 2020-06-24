@@ -18,6 +18,8 @@ export class ContentComponent implements OnInit {
     service: Service;
     launchServiceFrom: FormGroup;
     errorMessage: string
+    acceptForm: FormGroup
+    history: HistoryElement
 
     constructor(
         private fb: FormBuilder,
@@ -28,37 +30,62 @@ export class ContentComponent implements OnInit {
         this.dashboardService.getService().subscribe(service => {
             this.service = service
         })
-        {
-            this.launchServiceFrom = this.createFormGroup()
-        }
+        this.datasetService.getHistory().subscribe(history => {
+            this.history = history
+        })
+
+        this.createFormGroup()
     }
 
     ngOnInit(): void {
     }
 
     createFormGroup() {
-        return this.fb.group({
+        this.launchServiceFrom = this.fb.group({
             dataset: ['', Validators.required],
         });
+        this.acceptForm = this.fb.group({
+            comment: ['', Validators.required],
+            outputDataset: [''],
+        });
+
     }
 
     launchService() {
-        const dataset=this.launchServiceFrom.value.dataset
-        const data={
+        const dataset = this.launchServiceFrom.value.dataset
+        console.log("dataset====",dataset)
+        const data = {
             seller: this.service.seller.id,
             buyer: dataset.buyer.id,
             service: this.service.id,
-            dataset:dataset.id
+            dataset: dataset.id
         }
+        console.log("data====",data)
+
         this.datasetService.saveLaunchService(data)
-            .subscribe((history: HistoryElement)=>{
+            .subscribe((history: HistoryElement) => {
                 this.dashboardService.setHistory(history)
                 this.dashboardService.clearService()
-                this.errorMessage= "Service Successfully lunched."
-            },error => {
+                this.errorMessage = "Service Successfully lunched."
+            }, error => {
                 this.dashboardService.clearHistory()
-                this.errorMessage= error.message
+                this.errorMessage = error.message
             })
     }
 
+    accept() {
+        let history = this.history
+        history.comment = this.acceptForm.value.comment
+        history.outputDataset = this.acceptForm.value.outputDataset
+        this.datasetService.updateHistory(this.history.id,history)
+            .subscribe((history: HistoryElement) => {
+                this.dashboardService.setHistory(history)
+                this.dashboardService.clearService()
+                this.errorMessage = history.status==='COMPLETED'?'Submitted':"Accepted"
+                this.dashboardService.clearHistory()
+            }, error => {
+                this.dashboardService.clearHistory()
+                this.errorMessage = error.message
+            })
+    }
 }

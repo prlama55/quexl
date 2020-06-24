@@ -6,6 +6,8 @@ export interface HistoryElement {
     status: string
     buyer: Buyer
     comments: Comment[]
+    comment?: string
+    outputDataset?: string
     dataset: Dataset
     histories: HistoryElement[]
     id: string

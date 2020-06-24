@@ -43,8 +43,6 @@ class HistoryService implements IHistoryService {
   @Override
   History save(History history) {
     try {
-      history.buyer=utilityService.currentUser
-      history.seller=history.service.seller
       if (history.save(flush: true, failOnError: true)) {
         def historyElement = new HistoryElement()
         historyElement.properties = history.properties

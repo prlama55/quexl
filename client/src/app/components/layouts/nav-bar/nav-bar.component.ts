@@ -105,7 +105,7 @@ export class NavBarComponent implements OnInit {
             return;
         }
         this.loginService.register(this.signUpForm.value).subscribe(user => {
-            this.router.navigate(['/'])
+            this.modalRef.hide();
         }, error => {
             this.error = error.message
         })

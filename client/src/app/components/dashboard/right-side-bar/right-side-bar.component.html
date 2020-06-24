@@ -2,12 +2,41 @@
     <div class="row">
         <span class="col-3 font-weight-bold">History</span>
         <button (click)="refresh();"><span class="col-2"><i class="fa fa-refresh"></i></span></button>
-        <select (change)="filter($event)" #selectFilter  [value]="filterBy" class="col-6 form-control p-2">
+        <select (change)="filter($event)" #selectFilter [value]="filterBy" class="col-6 form-control p-2">
             <option value="">Select Status</option>
             <option value="Pending">Pending</option>
             <option value="In progress">In progress</option>
             <option value="Completed">Completed</option>
         </select>
+    </div>
+    <div class="requested" *ngIf="buyerRequested?.length > 0">
+        <div class="row">
+            <div class="col-12">
+                <h4>Pending Jobs</h4>
+            </div>
+        </div>
+        <div class="row" *ngFor="let history of buyerRequested">
+            <div class="col-12">
+                <div class="alert alert-info">
+                    <table>
+                        <tbody>
+                        <tr>
+                            <td><label>Date:</label> {{history.purchaseDate}}</td>
+                        </tr>
+                        <tr>
+                            <td><label>Seller:</label> {{history.seller.username}}</td>
+                        </tr>
+                        <tr>
+                            <td><label>Dataset:</label> {{history.dataset.dataFormat}}</td>
+                        </tr>
+                        <tr>
+                            <td><label>Service:</label> {{history.service.title}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="requested" *ngIf="requested?.length > 0">
         <div class="row">
@@ -33,12 +62,9 @@
                             <td><label>Service:</label> {{history.service.title}}</td>
                         </tr>
                         <tr>
-                            <td><label>Status:</label> {{history.status}}</td>
-                        </tr>
-                        <tr>
                             <td>
                                 <button style="width: 100%" (click)="acceptOffer(history,'INPROGRESS')"
-                                        class="btn btn-success">Accept
+                                        class="btn btn-success">View & Accept
                                 </button>
                             </td>
                         </tr>
@@ -48,39 +74,7 @@
             </div>
         </div>
     </div>
-    <div class="pending" *ngIf="pendings?.length > 0">
-        <div class="row">
-            <div class="col-12">
-                <h4>Pending Jobs</h4>
-            </div>
-        </div>
-        <div class="row" *ngFor="let history of pendings">
-            <div class="col-12">
-                <div class="alert alert-info">
-                    <table>
-                        <tbody>
-                        <tr>
-                            <td><label>Date:</label> {{history.purchaseDate}}</td>
-                        </tr>
-                        <tr>
-                            <td><label>Seller:</label> {{history.seller.username}}</td>
-                        </tr>
-                        <tr>
-                            <td><label>Dataset:</label> {{history.dataset.dataFormat}}</td>
-                        </tr>
-                        <tr>
-                            <td><label>Service:</label> {{history.service.title}}</td>
-                        </tr>
-                        <tr>
-                            <td><label>Status:</label> {{history.status}}</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="in-progress" *ngIf="inprogress?.length > 0">
+    <div class="in-progress" *ngIf="inprogress?.length > 0 || buyerInprogress?.length > 0">
         <div class="row">
             <div class="col-12">
                 <h4>In-Progress Job</h4>
@@ -95,16 +89,13 @@
                             <td><label>Date:</label> {{history.purchaseDate}}</td>
                         </tr>
                         <tr>
-                            <td><label>Seller:</label> {{history.seller.username}}</td>
+                            <td><label>Buyer:</label> {{history.buyer.username}}</td>
                         </tr>
                         <tr>
                             <td><label>Dataset:</label> {{history.dataset.dataFormat}}</td>
                         </tr>
                         <tr>
                             <td><label>Service:</label> {{history.service.title}}</td>
-                        </tr>
-                        <tr>
-                            <td><label>Status:</label> {{history.status}}</td>
                         </tr>
                         <tr>
                             <td>
@@ -118,14 +109,65 @@
                 </div>
             </div>
         </div>
+        <div class="row" *ngFor="let history of buyerInprogress">
+            <div class="col-12">
+                <div class="alert alert-info">
+                    <table>
+                        <tbody>
+                        <tr>
+                            <td><label>Date:</label> {{history.purchaseDate}}</td>
+                        </tr>
+                        <tr>
+                            <td><label>Seller:</label> {{history.seller.username}}</td>
+                        </tr>
+                        <tr>
+                            <td><label>Dataset:</label> {{history.dataset.dataFormat}}</td>
+                        </tr>
+                        <tr>
+                            <td><label>Service:</label> {{history.service.title}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="completed" *ngIf="completed?.length > 0">
+    <div class="completed" *ngIf="completed?.length > 0 || buyerCompleted?.length > 0">
         <div class="row">
             <div class="col-12">
                 <h4>Completed Jobs</h4>
             </div>
         </div>
         <div class="row" *ngFor="let history of completed">
+            <div class="col-12">
+                <div class="alert alert-info">
+                    <table>
+                        <tbody>
+                        <tr>
+                            <td><label>Date:</label> {{history.purchaseDate}}</td>
+                        </tr>
+                        <tr>
+                            <td><label>Buyer:</label> {{history.buyer.username}}</td>
+                        </tr>
+                        <tr>
+                            <td><label>Dataset:</label> {{history.dataset.dataFormat}}</td>
+                        </tr>
+                        <tr>
+                            <td><label>Service:</label> {{history.service.title}}</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <button style="width: 100%" (click)="acceptOffer(history,'View')"
+                                        class="btn btn-success">View Details
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row" *ngFor="let history of buyerCompleted">
             <div class="col-12">
                 <div class="alert alert-info">
                     <table>
@@ -143,9 +185,12 @@
                             <td><label>Service:</label> {{history.service.title}}</td>
                         </tr>
                         <tr>
-                            <td><label>Status:</label> {{history.status}}</td>
+                            <td>
+                                <button style="width: 100%" (click)="acceptOffer(history,'View')"
+                                        class="btn btn-success">View Details
+                                </button>
+                            </td>
                         </tr>
-
                         </tbody>
                     </table>
                 </div>
